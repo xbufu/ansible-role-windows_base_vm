@@ -1,0 +1,26 @@
+---
+- name: Enable RDP
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Terminal Server
+    name: fDenyTSConnections
+    type: dword
+    data: 0
+
+- name: Disable NLA
+  ansible.windows.win_regedit:
+    path: HKLM:\System\CurrentControlSet\Control\Terminal Server\WinStations\RDP-Tcp
+    name: UserAuthentication
+    type: dword
+    data: 0
+
+- name: Allow RDP through firewall
+  community.windows.win_firewall_rule:
+    action: allow
+    name: RDP
+    description: Allow Remote Desktop From Any
+    direction: in
+    enable: true
+    localport: 3389
+    protocol: TCP
+    remoteip: any
+    state: present

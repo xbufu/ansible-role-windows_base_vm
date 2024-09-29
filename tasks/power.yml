@@ -1,0 +1,29 @@
+---
+- name: Disable hibernation
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Power\
+    name: HiberFileSizePercent
+    data: 0
+
+- name: Disable hibernation
+  ansible.windows.win_regedit:
+    path: HKLM:\SYSTEM\CurrentControlSet\Control\Power\
+    name: HibernateEnabled
+    data: 0
+
+- name: Change power plan to high performance
+  community.windows.win_power_plan:
+    name: high performance
+
+- name: Disable screen saver
+  ansible.windows.win_regedit:
+    path: HKCU:\Control Panel\Desktop
+    name: ScreenSaveActive
+    type: dword
+    data: 0
+
+- name: Disable turning off screen
+  ansible.windows.win_shell: '& powercfg -x -monitor-timeout-{{ item }} 0'
+  loop:
+    - ac
+    - dc

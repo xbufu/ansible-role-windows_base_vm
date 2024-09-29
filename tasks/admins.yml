@@ -1,0 +1,14 @@
+---
+- name: Get local Administrator accounts
+  ansible.windows.win_group_membership:
+    name: Administrators
+    members:
+  register: local_admins
+
+- name: Disable password expiration for local Administrator accounts
+  ansible.windows.win_user:
+    name: '{{ item.split(separator)[1] }}'
+    password_never_expires: true
+  loop: "{{ local_admins.members }}"
+  vars:
+    separator: '\'

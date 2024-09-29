@@ -1,0 +1,20 @@
+---
+galaxy_info:
+  role_name: windows_base_vm
+  author: xbufu
+  description: Windows Base VM role.
+  company: Bufu-Security
+  license: license (BSD, MIT)
+  min_ansible_version: "2.1"
+  platforms:
+    - name: Windows
+      versions:
+        - all
+
+  galaxy_tags:
+    - system
+    - development
+    - devops
+    - automation
+    - vm
+    - ansible

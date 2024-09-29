@@ -1,0 +1,28 @@
+---
+- name: Ensure WinRM starts when the system has settled and is ready to work reliably
+  ansible.windows.win_service:
+    name: WinRM
+    start_mode: delayed
+
+- name: Apply general customizations
+  ansible.builtin.include_tasks: general.yml
+
+- name: Apply power settings
+  ansible.builtin.include_tasks: power.yml
+
+- name: Configure Administrator accounts
+  ansible.builtin.include_tasks: admins.yml
+
+- name: Enable ICMP
+  ansible.builtin.include_tasks: icmp.yml
+  when: windows_base_vm_enable_icmp
+
+- name: Enable RDP
+  ansible.builtin.include_tasks: rdp.yml
+  when: windows_base_vm_enable_rdp
+
+- name: Reset Autologon count
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
+    name: AutoLogonCount
+    data: 0

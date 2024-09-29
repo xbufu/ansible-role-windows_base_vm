@@ -1,0 +1,3 @@
+---
+windows_base_vm_enable_icmp: true
+windows_base_vm_enable_rdp: true
