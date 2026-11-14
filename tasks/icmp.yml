@@ -4,7 +4,8 @@
     name: ICMP Allow incoming V4 echo request
     enabled: true
     state: present
-    profiles: private
+    # Clones start on a Public network after sysprep.
+    profiles: [domain, private, public]
     action: allow
     direction: in
     protocol: icmpv4
