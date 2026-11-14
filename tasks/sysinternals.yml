@@ -9,6 +9,12 @@
   ansible.windows.win_get_url:
     url: https://download.sysinternals.com/files/SysinternalsSuite.zip
     dest: "{{ windows_base_vm_sysinternals_path }}\\SysinternalsSuite.zip"
+  # Defender scans the new 375 MB zip and holds it open for a moment ("being used by
+  # another process").
+  register: windows_base_vm_sysinternals_download
+  until: windows_base_vm_sysinternals_download is succeeded
+  retries: 5
+  delay: 20
   notify: Unpack Sysinternals Suite
 
 # Unpack before the next tasks, not at the end of the play.
