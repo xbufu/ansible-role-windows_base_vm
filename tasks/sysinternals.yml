@@ -1,0 +1,28 @@
+---
+- name: Create the Sysinternals folder
+  ansible.windows.win_file:
+    path: "{{ windows_base_vm_sysinternals_path }}"
+    state: directory
+
+# Downloads only when Microsoft's zip changed since the last run.
+- name: Download Sysinternals Suite
+  ansible.windows.win_get_url:
+    url: https://download.sysinternals.com/files/SysinternalsSuite.zip
+    dest: "{{ windows_base_vm_sysinternals_path }}\\SysinternalsSuite.zip"
+  notify: Unpack Sysinternals Suite
+
+# Unpack before the next tasks, not at the end of the play.
+- name: Unpack a new Sysinternals download
+  ansible.builtin.meta: flush_handlers
+
+- name: Add Sysinternals to the system PATH
+  ansible.windows.win_path:
+    elements: "{{ windows_base_vm_sysinternals_path }}"
+    scope: machine
+
+- name: Accept the Sysinternals EULA for every user
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Sysinternals
+    name: EulaAccepted
+    type: dword
+    data: 1

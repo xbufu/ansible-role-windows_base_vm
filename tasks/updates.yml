@@ -1,0 +1,9 @@
+---
+# Policy, so it survives sysprep: clones do not install updates or reboot on their own in
+# the middle of a test. Installing updates on request (win_updates, Settings) still works.
+- name: Turn off automatic Windows Update
+  ansible.windows.win_regedit:
+    path: HKLM:\SOFTWARE\Policies\Microsoft\Windows\WindowsUpdate\AU
+    name: NoAutoUpdate
+    type: dword
+    data: 1

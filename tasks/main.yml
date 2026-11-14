@@ -1,9 +1,4 @@
 ---
-- name: Ensure WinRM starts when the system has settled and is ready to work reliably
-  ansible.windows.win_service:
-    name: WinRM
-    start_mode: delayed
-
 - name: Apply general customizations
   ansible.builtin.include_tasks: general.yml
 
@@ -21,8 +16,14 @@
   ansible.builtin.include_tasks: rdp.yml
   when: windows_base_vm_enable_rdp
 
-- name: Reset Autologon count
-  ansible.windows.win_regedit:
-    path: HKLM:\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon
-    name: AutoLogonCount
-    data: 0
+- name: Turn off automatic Windows Update
+  ansible.builtin.include_tasks: updates.yml
+  when: windows_base_vm_disable_auto_updates
+
+- name: Install Sysinternals
+  ansible.builtin.include_tasks: sysinternals.yml
+  when: windows_base_vm_sysinternals
+
+- name: Install Chocolatey packages
+  ansible.builtin.include_tasks: chocolatey.yml
+  when: windows_base_vm_choco_packages | length > 0

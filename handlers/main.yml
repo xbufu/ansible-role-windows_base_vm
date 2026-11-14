@@ -1,0 +1,5 @@
+---
+- name: Unpack Sysinternals Suite
+  community.windows.win_unzip:
+    src: "{{ windows_base_vm_sysinternals_path }}\\SysinternalsSuite.zip"
+    dest: "{{ windows_base_vm_sysinternals_path }}"

@@ -1,3 +1,11 @@
 ---
 windows_base_vm_enable_icmp: true
 windows_base_vm_enable_rdp: true
+# Policy NoAutoUpdate: no automatic updates or reboots; manual updates still work.
+windows_base_vm_disable_auto_updates: true
+windows_base_vm_sysinternals: true
+windows_base_vm_sysinternals_path: C:\Tools\Sysinternals
+# Empty skips Chocolatey entirely.
+windows_base_vm_choco_packages:
+  - 7zip
+  - notepadplusplus

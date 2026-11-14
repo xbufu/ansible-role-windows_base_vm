@@ -1,0 +1,6 @@
+---
+# state latest: every run of the role also updates the packages.
+- name: Install Chocolatey packages
+  chocolatey.chocolatey.win_chocolatey:
+    name: "{{ windows_base_vm_choco_packages }}"
+    state: latest

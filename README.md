@@ -1,19 +1,27 @@
 Ansible Role: Windows Base VM
 =========
 
-An Ansible role to prepare an base Windows VM template.
+An Ansible role to prepare a base Windows VM template: Explorer, console and power
+settings, local admin passwords that never expire, ping and RDP, no automatic Windows
+Update, Sysinternals in `C:\Tools\Sysinternals` and Chocolatey packages.
 
 Requirements
 ------------
 
-None.
+Collections `ansible.windows`, `community.windows` and `chocolatey.chocolatey`.
 
 Role Variables
 --------------
 
 ```yml
-enable_icmp: true
-enable_rdp: true
+windows_base_vm_enable_icmp: true
+windows_base_vm_enable_rdp: true
+windows_base_vm_disable_auto_updates: true
+windows_base_vm_sysinternals: true
+windows_base_vm_sysinternals_path: C:\Tools\Sysinternals
+windows_base_vm_choco_packages:   # empty list skips Chocolatey
+  - 7zip
+  - notepadplusplus
 ```
 
 Dependencies
